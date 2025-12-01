@@ -11,15 +11,15 @@ export class User {
   @Field()
   email: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   avatarUrl?: string | null;
 
-  @Field({ nullable: true })
-  password: string;
+  @Field(() => String, { nullable: true })
+  password?: string;
 
-  @Field({ nullable: true })
+  @Field()
   createdAt: Date;
 
-  @Field({ nullable: true })
+  @Field()
   updatedAt: Date;
 }

@@ -8,6 +8,9 @@ export class RegisterDto {
   @IsString({ message: 'Fullname must be a string.' })
   fullname: string;
 
+  @Field({ nullable: true })
+  avatarUrl?: string;
+
   @Field()
   @IsNotEmpty({ message: 'Password is required.' })
   @MinLength(8, { message: 'Password must be at least 8 characters.' })
