@@ -38,7 +38,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
     const userExists = await this.prisma.user.findUnique({
-      where: { id: payload.sub },
+      where: { id: parseInt(payload.sub) },
     });
 
     if (!userExists) {
@@ -58,7 +58,10 @@ export class AuthService {
   }
 
   private issueToken(user: User, response: Response) {
-    const payload: JwtPayload = { username: user.fullname, sub: user.id };
+    const payload: JwtPayload = {
+      username: user.fullname,
+      sub: user.id.toString(),
+    };
 
     const accessToken = this.jwtService.sign(
       { ...payload },

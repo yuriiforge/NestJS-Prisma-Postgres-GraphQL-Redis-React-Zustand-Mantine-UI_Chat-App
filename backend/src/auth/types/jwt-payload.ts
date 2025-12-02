@@ -1,4 +1,6 @@
-export interface JwtPayload {
+import { JwtPayload as DefaultJwtPayload } from 'jsonwebtoken';
+
+export interface JwtPayload extends DefaultJwtPayload {
   username: string;
-  sub: number;
+  sub: string;
 }

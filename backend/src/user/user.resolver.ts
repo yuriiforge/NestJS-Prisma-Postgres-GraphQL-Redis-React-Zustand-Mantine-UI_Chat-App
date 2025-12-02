@@ -28,7 +28,7 @@ export class UserResolver {
       throw new UnauthorizedException('User not authenticated');
     }
 
-    return this.userService.updateProfile(userId, fullname, imageUrl);
+    return this.userService.updateProfile(parseInt(userId), fullname, imageUrl);
   }
 
   private async storeImageAndGetUrl(file: FileUpload) {
