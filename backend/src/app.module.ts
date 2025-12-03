@@ -12,6 +12,7 @@ import { AppResolver } from './app.resolver';
 import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { TokenService } from './token/token.service';
 import { GqlContext, GraphQLContextArgs, WsContext } from './types/gql-context';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 const pubSub = new RedisPubSub({
   connection: {
@@ -25,6 +26,10 @@ const pubSub = new RedisPubSub({
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'public'),
+      serveRoot: '/',
+    }),
     AuthModule,
     UserModule,
     GraphQLModule.forRootAsync({

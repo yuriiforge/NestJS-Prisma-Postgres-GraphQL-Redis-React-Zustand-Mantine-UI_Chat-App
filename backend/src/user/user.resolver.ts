@@ -23,7 +23,7 @@ export class UserResolver {
   ) {
     const imageUrl = file ? await this.storeImageAndGetUrl(file) : null;
     const userId = context?.req?.user?.sub;
-
+    console.log(fullname);
     if (!userId) {
       throw new UnauthorizedException('User not authenticated');
     }
@@ -36,8 +36,8 @@ export class UserResolver {
 
     const uniqueFilename = `${uuidv4()}_${filename}`;
 
-    const imagePath = join(process.cwd(), 'public', uniqueFilename);
-    const imageUrl = `${process.env.APP_URL}/${uniqueFilename}`;
+    const imagePath = join(process.cwd(), 'public', 'images', uniqueFilename);
+    const imageUrl = `${process.env.APP_URL}/images/${encodeURIComponent(uniqueFilename)}`;
 
     await new Promise<void>((resolve, reject) => {
       const stream = file.createReadStream();

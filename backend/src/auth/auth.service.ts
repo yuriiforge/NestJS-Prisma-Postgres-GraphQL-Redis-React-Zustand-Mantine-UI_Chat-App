@@ -67,7 +67,7 @@ export class AuthService {
       { ...payload },
       {
         secret: this.configService.get<string>('ACCESS_TOKEN_SECRET'),
-        expiresIn: '150sec',
+        expiresIn: '1h',
       },
     );
 
