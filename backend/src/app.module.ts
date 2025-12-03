@@ -13,6 +13,7 @@ import { RedisPubSub } from 'graphql-redis-subscriptions';
 import { TokenService } from './token/token.service';
 import { GqlContext, GraphQLContextArgs, WsContext } from './types/gql-context';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { ChatroomModule } from './chatroom/chatroom.module';
 
 const pubSub = new RedisPubSub({
   connection: {
@@ -88,6 +89,7 @@ const pubSub = new RedisPubSub({
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ChatroomModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService, AppResolver, TokenService],
