@@ -1,8 +1,8 @@
 import { Modal } from '@mantine/core';
-import { useGeneralStore } from '../stores/generalStore';
+import { useGeneralStore } from '../../stores/generalStore';
 import { useState } from 'react';
-import Register from './auth/Register';
-import Login from './auth/Login';
+import Register from './Register';
+import Login from './Login';
 
 const AuthOverlay = () => {
   const isLoginModalOpen = useGeneralStore((state) => state.isLoginModalOpen);

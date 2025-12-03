@@ -33,6 +33,16 @@ export type Scalars = {
   Upload: { input: any; output: any };
 };
 
+export type Chatroom = {
+  __typename?: 'Chatroom';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  messages?: Maybe<Array<Message>>;
+  name?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  users?: Maybe<Array<User>>;
+};
+
 export type LoginDto = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -43,13 +53,40 @@ export type LoginResponse = {
   user: User;
 };
 
+export type Message = {
+  __typename?: 'Message';
+  chatroom?: Maybe<Chatroom>;
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  imageUrl?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<User>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  addUsersToChatroom: Chatroom;
+  createChatroom: Chatroom;
+  deleteChatroom: Scalars['String']['output'];
   login: LoginResponse;
   logout: Scalars['String']['output'];
   refreshToken: Scalars['String']['output'];
   register: RegisterResponse;
   updateProfile: User;
+};
+
+export type MutationAddUsersToChatroomArgs = {
+  chatroomId: Scalars['Float']['input'];
+  userIds: Array<Scalars['Float']['input']>;
+};
+
+export type MutationCreateChatroomArgs = {
+  name: Scalars['String']['input'];
+};
+
+export type MutationDeleteChatroomArgs = {
+  chatroomId: Scalars['Float']['input'];
 };
 
 export type MutationLoginArgs = {
@@ -67,7 +104,27 @@ export type MutationUpdateProfileArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getChatroomsForUser: Array<Chatroom>;
+  getMessagesForChatroom: Array<Message>;
+  getUsersOfChatroom: Array<User>;
   hello: Scalars['String']['output'];
+  searchUsers: Array<User>;
+};
+
+export type QueryGetChatroomsForUserArgs = {
+  userId: Scalars['Float']['input'];
+};
+
+export type QueryGetMessagesForChatroomArgs = {
+  chatroomId: Scalars['Float']['input'];
+};
+
+export type QueryGetUsersOfChatroomArgs = {
+  chatroomId: Scalars['Float']['input'];
+};
+
+export type QuerySearchUsersArgs = {
+  fullname: Scalars['String']['input'];
 };
 
 export type RegisterDto = {
@@ -92,6 +149,42 @@ export type User = {
   id: Scalars['Float']['output'];
   password?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];
+};
+
+export type AddUsersToChatroomMutationVariables = Exact<{
+  chatroomId: Scalars['Float']['input'];
+  userIds: Array<Scalars['Float']['input']> | Scalars['Float']['input'];
+}>;
+
+export type AddUsersToChatroomMutation = {
+  __typename?: 'Mutation';
+  addUsersToChatroom: {
+    __typename?: 'Chatroom';
+    name?: string | null;
+    id?: string | null;
+  };
+};
+
+export type CreateChatroomMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
+
+export type CreateChatroomMutation = {
+  __typename?: 'Mutation';
+  createChatroom: {
+    __typename?: 'Chatroom';
+    name?: string | null;
+    id?: string | null;
+  };
+};
+
+export type DeleteChatroomMutationVariables = Exact<{
+  chatroomId: Scalars['Float']['input'];
+}>;
+
+export type DeleteChatroomMutation = {
+  __typename?: 'Mutation';
+  deleteChatroom: string;
 };
 
 export type LoginUserMutationVariables = Exact<{
@@ -152,6 +245,273 @@ export type UpdateProfileMutation = {
   };
 };
 
+export type GetChatroomsForUserQueryVariables = Exact<{
+  userId: Scalars['Float']['input'];
+}>;
+
+export type GetChatroomsForUserQuery = {
+  __typename?: 'Query';
+  getChatroomsForUser: Array<{
+    __typename?: 'Chatroom';
+    id?: string | null;
+    name?: string | null;
+    messages?: Array<{
+      __typename?: 'Message';
+      id?: string | null;
+      content?: string | null;
+      createdAt?: any | null;
+      user?: { __typename?: 'User'; id: number; fullname: string } | null;
+    }> | null;
+    users?: Array<{
+      __typename?: 'User';
+      avatarUrl?: string | null;
+      id: number;
+      fullname: string;
+      email: string;
+    }> | null;
+  }>;
+};
+
+export type GetMessagesForChatroomQueryVariables = Exact<{
+  chatroomId: Scalars['Float']['input'];
+}>;
+
+export type GetMessagesForChatroomQuery = {
+  __typename?: 'Query';
+  getMessagesForChatroom: Array<{
+    __typename?: 'Message';
+    id?: string | null;
+    content?: string | null;
+    imageUrl?: string | null;
+    createdAt?: any | null;
+    user?: {
+      __typename?: 'User';
+      id: number;
+      fullname: string;
+      email: string;
+      avatarUrl?: string | null;
+    } | null;
+    chatroom?: {
+      __typename?: 'Chatroom';
+      id?: string | null;
+      name?: string | null;
+      users?: Array<{
+        __typename?: 'User';
+        id: number;
+        fullname: string;
+        email: string;
+        avatarUrl?: string | null;
+      }> | null;
+    } | null;
+  }>;
+};
+
+export type GetUsersOfChatroomQueryVariables = Exact<{
+  chatroomId: Scalars['Float']['input'];
+}>;
+
+export type GetUsersOfChatroomQuery = {
+  __typename?: 'Query';
+  getUsersOfChatroom: Array<{
+    __typename?: 'User';
+    id: number;
+    fullname: string;
+    email: string;
+    avatarUrl?: string | null;
+  }>;
+};
+
+export type SearchUsersQueryVariables = Exact<{
+  fullname: Scalars['String']['input'];
+}>;
+
+export type SearchUsersQuery = {
+  __typename?: 'Query';
+  searchUsers: Array<{
+    __typename?: 'User';
+    id: number;
+    fullname: string;
+    email: string;
+  }>;
+};
+
+export const AddUsersToChatroomDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AddUsersToChatroom' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'chatroomId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userIds' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'ListType',
+              type: {
+                kind: 'NonNullType',
+                type: {
+                  kind: 'NamedType',
+                  name: { kind: 'Name', value: 'Float' },
+                },
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'addUsersToChatroom' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'chatroomId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'chatroomId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userIds' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'userIds' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AddUsersToChatroomMutation,
+  AddUsersToChatroomMutationVariables
+>;
+export const CreateChatroomDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateChatroom' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'name' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createChatroom' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'name' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'name' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateChatroomMutation,
+  CreateChatroomMutationVariables
+>;
+export const DeleteChatroomDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteChatroom' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'chatroomId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteChatroom' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'chatroomId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'chatroomId' },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteChatroomMutation,
+  DeleteChatroomMutationVariables
+>;
 export const LoginUserDocument = {
   kind: 'Document',
   definitions: [
@@ -480,6 +840,328 @@ export const UpdateProfileDocument = {
   UpdateProfileMutation,
   UpdateProfileMutationVariables
 >;
+export const GetChatroomsForUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetChatroomsForUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getChatroomsForUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'userId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'userId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'messages' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'content' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'user' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'fullname' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'users' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'avatarUrl' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fullname' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetChatroomsForUserQuery,
+  GetChatroomsForUserQueryVariables
+>;
+export const GetMessagesForChatroomDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetMessagesForChatroom' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'chatroomId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getMessagesForChatroom' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'chatroomId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'chatroomId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'content' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fullname' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'avatarUrl' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'chatroom' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'fullname' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'avatarUrl' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetMessagesForChatroomQuery,
+  GetMessagesForChatroomQueryVariables
+>;
+export const GetUsersOfChatroomDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetUsersOfChatroom' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'chatroomId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Float' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getUsersOfChatroom' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'chatroomId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'chatroomId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'fullname' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'avatarUrl' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetUsersOfChatroomQuery,
+  GetUsersOfChatroomQueryVariables
+>;
+export const SearchUsersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SearchUsers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'fullname' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'searchUsers' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'fullname' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'fullname' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'fullname' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SearchUsersQuery, SearchUsersQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -493,6 +1175,16 @@ export type Scalars = {
   Upload: { input: any; output: any };
 };
 
+export type Chatroom = {
+  __typename?: 'Chatroom';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  messages?: Maybe<Array<Message>>;
+  name?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  users?: Maybe<Array<User>>;
+};
+
 export type LoginDto = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -503,13 +1195,40 @@ export type LoginResponse = {
   user: User;
 };
 
+export type Message = {
+  __typename?: 'Message';
+  chatroom?: Maybe<Chatroom>;
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  imageUrl?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<User>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  addUsersToChatroom: Chatroom;
+  createChatroom: Chatroom;
+  deleteChatroom: Scalars['String']['output'];
   login: LoginResponse;
   logout: Scalars['String']['output'];
   refreshToken: Scalars['String']['output'];
   register: RegisterResponse;
   updateProfile: User;
+};
+
+export type MutationAddUsersToChatroomArgs = {
+  chatroomId: Scalars['Float']['input'];
+  userIds: Array<Scalars['Float']['input']>;
+};
+
+export type MutationCreateChatroomArgs = {
+  name: Scalars['String']['input'];
+};
+
+export type MutationDeleteChatroomArgs = {
+  chatroomId: Scalars['Float']['input'];
 };
 
 export type MutationLoginArgs = {
@@ -527,7 +1246,27 @@ export type MutationUpdateProfileArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getChatroomsForUser: Array<Chatroom>;
+  getMessagesForChatroom: Array<Message>;
+  getUsersOfChatroom: Array<User>;
   hello: Scalars['String']['output'];
+  searchUsers: Array<User>;
+};
+
+export type QueryGetChatroomsForUserArgs = {
+  userId: Scalars['Float']['input'];
+};
+
+export type QueryGetMessagesForChatroomArgs = {
+  chatroomId: Scalars['Float']['input'];
+};
+
+export type QueryGetUsersOfChatroomArgs = {
+  chatroomId: Scalars['Float']['input'];
+};
+
+export type QuerySearchUsersArgs = {
+  fullname: Scalars['String']['input'];
 };
 
 export type RegisterDto = {

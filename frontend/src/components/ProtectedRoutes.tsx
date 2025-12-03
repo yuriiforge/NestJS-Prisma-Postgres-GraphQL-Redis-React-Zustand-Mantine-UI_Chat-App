@@ -3,7 +3,7 @@ import { useUserStore } from '../stores/userStore';
 import { useGeneralStore } from '../stores/generalStore';
 
 const ProtectedRoutes = ({ children }: PropsWithChildren) => {
-  const userId = useUserStore((state) => state.id);
+  const userId = useUserStore((state) => state.user?.id);
   const toggleLoginModal = useGeneralStore((state) => state.toggleLoginModal);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const ProtectedRoutes = ({ children }: PropsWithChildren) => {
 
   if (userId) return children;
 
-  return <>Protected</>;
+  return <p>Login to get started</p>;
 };
 
 export default ProtectedRoutes;

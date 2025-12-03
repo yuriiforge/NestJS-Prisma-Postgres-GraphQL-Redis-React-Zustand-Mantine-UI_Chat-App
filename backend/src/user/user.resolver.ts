@@ -1,4 +1,4 @@
-import { Resolver, Context, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Context, Mutation, Args, Query } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './user.type';
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
@@ -23,12 +23,31 @@ export class UserResolver {
   ) {
     const imageUrl = file ? await this.storeImageAndGetUrl(file) : null;
     const userId = context?.req?.user?.sub;
-    console.log(fullname);
     if (!userId) {
       throw new UnauthorizedException('User not authenticated');
     }
 
     return this.userService.updateProfile(parseInt(userId), fullname, imageUrl);
+  }
+
+  @UseGuards(GraphqlAuthGuard)
+  @Query(() => [User])
+  async searchUsers(
+    @Args('fullname') fullname: string,
+    @Context() context: { req: Request },
+  ) {
+    const userId = context?.req?.user?.sub;
+    if (!userId) {
+      throw new UnauthorizedException('User not authenticated');
+    }
+
+    return this.userService.searchUsers(fullname, parseInt(userId));
+  }
+
+  @UseGuards(GraphqlAuthGuard)
+  @Query(() => [User])
+  async getUsersOfChatroom(@Args('chatroomId') chatroomId: number) {
+    return this.userService.getUsersOfChatroom(chatroomId);
   }
 
   private async storeImageAndGetUrl(file: FileUpload) {
