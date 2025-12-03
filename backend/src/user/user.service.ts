@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import fs from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class UserService {
@@ -11,13 +13,28 @@ export class UserService {
     avatarUrl: string | null,
   ) {
     if (avatarUrl) {
-      return await this.prisma.user.update({
+      const oldUser = await this.prisma.user.findUnique({
+        where: { id: userId },
+      });
+      const updatedUser = await this.prisma.user.update({
         where: { id: userId },
         data: {
           fullname,
           avatarUrl,
         },
       });
+
+      if (oldUser?.avatarUrl) {
+        const imageName = oldUser.avatarUrl.split('/').pop();
+
+        const imagePath = join(process.cwd(), 'public', 'images', imageName!);
+
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
+      }
+
+      return updatedUser;
     }
 
     return await this.prisma.user.update({
