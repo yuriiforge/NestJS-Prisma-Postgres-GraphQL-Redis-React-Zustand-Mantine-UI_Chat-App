@@ -136,7 +136,7 @@ export class ChatroomService {
     return imagePath;
   }
 
-  async getMessageForChatroom(chatroomId: number) {
+  async getMessagesForChatroom(chatroomId: number) {
     return await this.prisma.message.findMany({
       where: {
         chatroomId,
