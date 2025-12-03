@@ -57,7 +57,7 @@ export class AuthService {
     return accessToken;
   }
 
-  private issueToken(user: User, response: Response) {
+  private issueTokens(user: User, response: Response) {
     const payload: JwtPayload = {
       username: user.fullname,
       sub: user.id.toString(),
@@ -80,6 +80,8 @@ export class AuthService {
     response.cookie(TokenNames.Refresh, refreshToken, {
       httpOnly: true,
     });
+
+    return { user };
   }
 
   async validateUser(loginDto: LoginDto) {
@@ -117,8 +119,7 @@ export class AuthService {
         email: registerDto.email,
       },
     });
-    console.log(user);
-    return this.issueToken(user, response);
+    return this.issueTokens(user, response);
   }
 
   async login(loginDto: LoginDto, response: Response) {
@@ -130,7 +131,7 @@ export class AuthService {
       });
     }
 
-    return this.issueToken(user, response);
+    return this.issueTokens(user, response);
   }
 
   logout(response: Response) {
