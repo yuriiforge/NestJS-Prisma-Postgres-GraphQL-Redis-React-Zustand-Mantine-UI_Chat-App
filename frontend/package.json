@@ -17,6 +17,7 @@
     "@mantine/form": "^8.3.9",
     "@mantine/hooks": "^8.3.9",
     "@mantine/modals": "^8.3.9",
+    "@tabler/icons-react": "^3.35.0",
     "@types/apollo-upload-client": "^19.0.0",
     "apollo-upload-client": "^19.0.0",
     "dotenv": "^17.2.3",
