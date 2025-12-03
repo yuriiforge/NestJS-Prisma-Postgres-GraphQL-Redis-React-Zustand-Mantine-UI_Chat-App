@@ -117,7 +117,7 @@ export class AuthService {
         email: registerDto.email,
       },
     });
-
+    console.log(user);
     return this.issueToken(user, response);
   }
 

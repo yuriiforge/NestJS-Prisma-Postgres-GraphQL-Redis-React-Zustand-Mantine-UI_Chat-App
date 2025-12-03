@@ -6,7 +6,7 @@ interface UserState {
   user: Partial<User> | null;
   updateProfileImage: (image: string) => void;
   updateUsername: (name: string) => void;
-  setUser: (user: User | null) => void;
+  setUser: (user: Partial<User> | null) => void;
 }
 
 export const useUserStore = create<UserState>()(
