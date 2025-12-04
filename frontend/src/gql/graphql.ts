@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -7,7 +7,6 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-export type InputMaybe<T> = Maybe<T>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -23,12 +22,12 @@ export type Scalars = {
 
 export type Chatroom = {
   __typename?: 'Chatroom';
-  createdAt: Maybe<Scalars['DateTime']['output']>;
-  id: Maybe<Scalars['ID']['output']>;
-  messages: Maybe<Array<Message>>;
-  name: Maybe<Scalars['String']['output']>;
-  updatedAt: Maybe<Scalars['DateTime']['output']>;
-  users: Maybe<Array<User>>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  messages?: Maybe<Array<Message>>;
+  name?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  users?: Maybe<Array<User>>;
 };
 
 export type LoginDto = {
@@ -43,13 +42,13 @@ export type LoginResponse = {
 
 export type Message = {
   __typename?: 'Message';
-  chatroom: Maybe<Chatroom>;
-  content: Maybe<Scalars['String']['output']>;
-  createdAt: Maybe<Scalars['DateTime']['output']>;
-  id: Maybe<Scalars['ID']['output']>;
-  imageUrl: Maybe<Scalars['String']['output']>;
-  updatedAt: Maybe<Scalars['DateTime']['output']>;
-  user: Maybe<User>;
+  chatroom?: Maybe<Chatroom>;
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  imageUrl?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<User>;
 };
 
 export type Mutation = {
@@ -109,12 +108,12 @@ export type MutationRegisterArgs = {
 export type MutationSendMessageArgs = {
   chatroomId: Scalars['Float']['input'];
   content: Scalars['String']['input'];
-  image: InputMaybe<Scalars['Upload']['input']>;
+  image?: InputMaybe<Scalars['Upload']['input']>;
 };
 
 
 export type MutationUpdateProfileArgs = {
-  file: InputMaybe<Scalars['Upload']['input']>;
+  file?: InputMaybe<Scalars['Upload']['input']>;
   fullname: Scalars['String']['input'];
 };
 
@@ -158,7 +157,7 @@ export type QuerySearchUsersArgs = {
 };
 
 export type RegisterDto = {
-  avatarUrl: InputMaybe<Scalars['String']['input']>;
+  avatarUrl?: InputMaybe<Scalars['String']['input']>;
   confirmPassword: Scalars['String']['input'];
   email: Scalars['String']['input'];
   fullname: Scalars['String']['input'];
@@ -167,15 +166,15 @@ export type RegisterDto = {
 
 export type RegisterResponse = {
   __typename?: 'RegisterResponse';
-  user: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  liveUsersInChatroom: Maybe<Array<User>>;
-  newMessage: Maybe<Message>;
-  userStartedTyping: Maybe<User>;
-  userStoppedTyping: Maybe<User>;
+  liveUsersInChatroom?: Maybe<Array<User>>;
+  newMessage?: Maybe<Message>;
+  userStartedTyping?: Maybe<User>;
+  userStoppedTyping?: Maybe<User>;
 };
 
 
@@ -200,12 +199,12 @@ export type SubscriptionUserStoppedTypingArgs = {
 
 export type User = {
   __typename?: 'User';
-  avatarUrl: Maybe<Scalars['String']['output']>;
+  avatarUrl?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   email: Scalars['String']['output'];
   fullname: Scalars['String']['output'];
   id: Scalars['Float']['output'];
-  password: Maybe<Scalars['String']['output']>;
+  password?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -215,14 +214,14 @@ export type AddUsersToChatroomMutationVariables = Exact<{
 }>;
 
 
-export type AddUsersToChatroomMutation = { __typename?: 'Mutation', addUsersToChatroom: { __typename?: 'Chatroom', name: string | null, id: string | null } };
+export type AddUsersToChatroomMutation = { __typename?: 'Mutation', addUsersToChatroom: { __typename?: 'Chatroom', name?: string | null, id?: string | null } };
 
 export type CreateChatroomMutationVariables = Exact<{
   name: Scalars['String']['input'];
 }>;
 
 
-export type CreateChatroomMutation = { __typename?: 'Mutation', createChatroom: { __typename?: 'Chatroom', name: string | null, id: string | null } };
+export type CreateChatroomMutation = { __typename?: 'Mutation', createChatroom: { __typename?: 'Chatroom', name?: string | null, id?: string | null } };
 
 export type DeleteChatroomMutationVariables = Exact<{
   chatroomId: Scalars['Float']['input'];
@@ -251,7 +250,7 @@ export type LoginUserMutationVariables = Exact<{
 }>;
 
 
-export type LoginUserMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', user: { __typename?: 'User', email: string, id: number, fullname: string, avatarUrl: string | null } } };
+export type LoginUserMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', user: { __typename?: 'User', email: string, id: number, fullname: string, avatarUrl?: string | null } } };
 
 export type LogoutUserMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -266,24 +265,24 @@ export type RegisterUserMutationVariables = Exact<{
 }>;
 
 
-export type RegisterUserMutation = { __typename?: 'Mutation', register: { __typename?: 'RegisterResponse', user: { __typename?: 'User', id: number, fullname: string, email: string } | null } };
+export type RegisterUserMutation = { __typename?: 'Mutation', register: { __typename?: 'RegisterResponse', user?: { __typename?: 'User', id: number, fullname: string, email: string } | null } };
 
 export type SendMessageMutationVariables = Exact<{
   chatroomId: Scalars['Float']['input'];
   content: Scalars['String']['input'];
-  image: InputMaybe<Scalars['Upload']['input']>;
+  image?: InputMaybe<Scalars['Upload']['input']>;
 }>;
 
 
-export type SendMessageMutation = { __typename?: 'Mutation', sendMessage: { __typename?: 'Message', id: string | null, content: string | null, imageUrl: string | null, user: { __typename?: 'User', id: number, fullname: string, email: string } | null } };
+export type SendMessageMutation = { __typename?: 'Mutation', sendMessage: { __typename?: 'Message', id?: string | null, content?: string | null, imageUrl?: string | null, user?: { __typename?: 'User', id: number, fullname: string, email: string } | null } };
 
 export type UpdateProfileMutationVariables = Exact<{
   fullname: Scalars['String']['input'];
-  file: InputMaybe<Scalars['Upload']['input']>;
+  file?: InputMaybe<Scalars['Upload']['input']>;
 }>;
 
 
-export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', id: number, fullname: string, avatarUrl: string | null } };
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'User', id: number, fullname: string, avatarUrl?: string | null } };
 
 export type UserStartedTypingMutationMutationVariables = Exact<{
   chatroomId: Scalars['Float']['input'];
@@ -304,21 +303,21 @@ export type GetChatroomsForUserQueryVariables = Exact<{
 }>;
 
 
-export type GetChatroomsForUserQuery = { __typename?: 'Query', getChatroomsForUser: Array<{ __typename?: 'Chatroom', id: string | null, name: string | null, messages: Array<{ __typename?: 'Message', id: string | null, content: string | null, createdAt: any | null, user: { __typename?: 'User', id: number, fullname: string } | null }> | null, users: Array<{ __typename?: 'User', avatarUrl: string | null, id: number, fullname: string, email: string }> | null }> };
+export type GetChatroomsForUserQuery = { __typename?: 'Query', getChatroomsForUser: Array<{ __typename?: 'Chatroom', id?: string | null, name?: string | null, messages?: Array<{ __typename?: 'Message', id?: string | null, content?: string | null, createdAt?: any | null, user?: { __typename?: 'User', id: number, fullname: string } | null }> | null, users?: Array<{ __typename?: 'User', avatarUrl?: string | null, id: number, fullname: string, email: string }> | null }> };
 
 export type GetMessagesForChatroomQueryVariables = Exact<{
   chatroomId: Scalars['Float']['input'];
 }>;
 
 
-export type GetMessagesForChatroomQuery = { __typename?: 'Query', getMessagesForChatroom: Array<{ __typename?: 'Message', id: string | null, content: string | null, imageUrl: string | null, createdAt: any | null, user: { __typename?: 'User', id: number, fullname: string, email: string, avatarUrl: string | null } | null, chatroom: { __typename?: 'Chatroom', id: string | null, name: string | null, users: Array<{ __typename?: 'User', id: number, fullname: string, email: string, avatarUrl: string | null }> | null } | null }> };
+export type GetMessagesForChatroomQuery = { __typename?: 'Query', getMessagesForChatroom: Array<{ __typename?: 'Message', id?: string | null, content?: string | null, imageUrl?: string | null, createdAt?: any | null, user?: { __typename?: 'User', id: number, fullname: string, email: string, avatarUrl?: string | null } | null, chatroom?: { __typename?: 'Chatroom', id?: string | null, name?: string | null, users?: Array<{ __typename?: 'User', id: number, fullname: string, email: string, avatarUrl?: string | null }> | null } | null }> };
 
 export type GetUsersOfChatroomQueryVariables = Exact<{
   chatroomId: Scalars['Float']['input'];
 }>;
 
 
-export type GetUsersOfChatroomQuery = { __typename?: 'Query', getUsersOfChatroom: Array<{ __typename?: 'User', id: number, fullname: string, email: string, avatarUrl: string | null }> };
+export type GetUsersOfChatroomQuery = { __typename?: 'Query', getUsersOfChatroom: Array<{ __typename?: 'User', id: number, fullname: string, email: string, avatarUrl?: string | null }> };
 
 export type SearchUsersQueryVariables = Exact<{
   fullname: Scalars['String']['input'];
@@ -332,28 +331,28 @@ export type LiveUsersInChatroomSubscriptionVariables = Exact<{
 }>;
 
 
-export type LiveUsersInChatroomSubscription = { __typename?: 'Subscription', liveUsersInChatroom: Array<{ __typename?: 'User', id: number, fullname: string, avatarUrl: string | null, email: string }> | null };
+export type LiveUsersInChatroomSubscription = { __typename?: 'Subscription', liveUsersInChatroom?: Array<{ __typename?: 'User', id: number, fullname: string, avatarUrl?: string | null, email: string }> | null };
 
 export type NewMessageSubscriptionVariables = Exact<{
   chatroomId: Scalars['Float']['input'];
 }>;
 
 
-export type NewMessageSubscription = { __typename?: 'Subscription', newMessage: { __typename?: 'Message', id: string | null, content: string | null, imageUrl: string | null, createdAt: any | null, user: { __typename?: 'User', id: number, fullname: string, email: string, avatarUrl: string | null } | null } | null };
+export type NewMessageSubscription = { __typename?: 'Subscription', newMessage?: { __typename?: 'Message', id?: string | null, content?: string | null, imageUrl?: string | null, createdAt?: any | null, user?: { __typename?: 'User', id: number, fullname: string, email: string, avatarUrl?: string | null } | null } | null };
 
 export type UserStartedTypingSubscriptionVariables = Exact<{
   chatroomId: Scalars['Float']['input'];
 }>;
 
 
-export type UserStartedTypingSubscription = { __typename?: 'Subscription', userStartedTyping: { __typename?: 'User', id: number, fullname: string, email: string, avatarUrl: string | null } | null };
+export type UserStartedTypingSubscription = { __typename?: 'Subscription', userStartedTyping?: { __typename?: 'User', id: number, fullname: string, email: string, avatarUrl?: string | null } | null };
 
 export type UserStoppedTypingSubscriptionVariables = Exact<{
   chatroomId: Scalars['Float']['input'];
 }>;
 
 
-export type UserStoppedTypingSubscription = { __typename?: 'Subscription', userStoppedTyping: { __typename?: 'User', id: number, fullname: string, email: string, avatarUrl: string | null } | null };
+export type UserStoppedTypingSubscription = { __typename?: 'Subscription', userStoppedTyping?: { __typename?: 'User', id: number, fullname: string, email: string, avatarUrl?: string | null } | null };
 
 
 export const AddUsersToChatroomDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddUsersToChatroom"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"chatroomId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addUsersToChatroom"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"chatroomId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"chatroomId"}}},{"kind":"Argument","name":{"kind":"Name","value":"userIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userIds"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AddUsersToChatroomMutation, AddUsersToChatroomMutationVariables>;
@@ -376,203 +375,3 @@ export const LiveUsersInChatroomDocument = {"kind":"Document","definitions":[{"k
 export const NewMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"NewMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"chatroomId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"newMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"chatroomId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"chatroomId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullname"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}}]}}]}}]} as unknown as DocumentNode<NewMessageSubscription, NewMessageSubscriptionVariables>;
 export const UserStartedTypingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"UserStartedTyping"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"chatroomId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userStartedTyping"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"chatroomId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"chatroomId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullname"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}}]}}]} as unknown as DocumentNode<UserStartedTypingSubscription, UserStartedTypingSubscriptionVariables>;
 export const UserStoppedTypingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"subscription","name":{"kind":"Name","value":"UserStoppedTyping"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"chatroomId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userStoppedTyping"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"chatroomId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"chatroomId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullname"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"avatarUrl"}}]}}]}}]} as unknown as DocumentNode<UserStoppedTypingSubscription, UserStoppedTypingSubscriptionVariables>;
-/** All built-in and custom scalars, mapped to their actual values */
-export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-  DateTime: { input: any; output: any; }
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: { input: any; output: any; }
-};
-
-export type Chatroom = {
-  __typename?: 'Chatroom';
-  createdAt: Maybe<Scalars['DateTime']['output']>;
-  id: Maybe<Scalars['ID']['output']>;
-  messages: Maybe<Array<Message>>;
-  name: Maybe<Scalars['String']['output']>;
-  updatedAt: Maybe<Scalars['DateTime']['output']>;
-  users: Maybe<Array<User>>;
-};
-
-export type LoginDto = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-};
-
-export type LoginResponse = {
-  __typename?: 'LoginResponse';
-  user: User;
-};
-
-export type Message = {
-  __typename?: 'Message';
-  chatroom: Maybe<Chatroom>;
-  content: Maybe<Scalars['String']['output']>;
-  createdAt: Maybe<Scalars['DateTime']['output']>;
-  id: Maybe<Scalars['ID']['output']>;
-  imageUrl: Maybe<Scalars['String']['output']>;
-  updatedAt: Maybe<Scalars['DateTime']['output']>;
-  user: Maybe<User>;
-};
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  addUsersToChatroom: Chatroom;
-  createChatroom: Chatroom;
-  deleteChatroom: Scalars['String']['output'];
-  enterChatroom: Scalars['Boolean']['output'];
-  leaveChatroom: Scalars['Boolean']['output'];
-  login: LoginResponse;
-  logout: Scalars['String']['output'];
-  refreshToken: Scalars['String']['output'];
-  register: RegisterResponse;
-  sendMessage: Message;
-  updateProfile: User;
-  userStartedTypingMutation: User;
-  userStoppedTypingMutation: User;
-};
-
-
-export type MutationAddUsersToChatroomArgs = {
-  chatroomId: Scalars['Float']['input'];
-  userIds: Array<Scalars['Float']['input']>;
-};
-
-
-export type MutationCreateChatroomArgs = {
-  name: Scalars['String']['input'];
-};
-
-
-export type MutationDeleteChatroomArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-
-export type MutationEnterChatroomArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-
-export type MutationLeaveChatroomArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-
-export type MutationLoginArgs = {
-  loginInput: LoginDto;
-};
-
-
-export type MutationRegisterArgs = {
-  registerInput: RegisterDto;
-};
-
-
-export type MutationSendMessageArgs = {
-  chatroomId: Scalars['Float']['input'];
-  content: Scalars['String']['input'];
-  image: InputMaybe<Scalars['Upload']['input']>;
-};
-
-
-export type MutationUpdateProfileArgs = {
-  file: InputMaybe<Scalars['Upload']['input']>;
-  fullname: Scalars['String']['input'];
-};
-
-
-export type MutationUserStartedTypingMutationArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-
-export type MutationUserStoppedTypingMutationArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-export type Query = {
-  __typename?: 'Query';
-  getChatroomsForUser: Array<Chatroom>;
-  getMessagesForChatroom: Array<Message>;
-  getUsersOfChatroom: Array<User>;
-  hello: Scalars['String']['output'];
-  searchUsers: Array<User>;
-};
-
-
-export type QueryGetChatroomsForUserArgs = {
-  userId: Scalars['Float']['input'];
-};
-
-
-export type QueryGetMessagesForChatroomArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-
-export type QueryGetUsersOfChatroomArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-
-export type QuerySearchUsersArgs = {
-  fullname: Scalars['String']['input'];
-};
-
-export type RegisterDto = {
-  avatarUrl: InputMaybe<Scalars['String']['input']>;
-  confirmPassword: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-  fullname: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-};
-
-export type RegisterResponse = {
-  __typename?: 'RegisterResponse';
-  user: Maybe<User>;
-};
-
-export type Subscription = {
-  __typename?: 'Subscription';
-  liveUsersInChatroom: Maybe<Array<User>>;
-  newMessage: Maybe<Message>;
-  userStartedTyping: Maybe<User>;
-  userStoppedTyping: Maybe<User>;
-};
-
-
-export type SubscriptionLiveUsersInChatroomArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-
-export type SubscriptionNewMessageArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-
-export type SubscriptionUserStartedTypingArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-
-export type SubscriptionUserStoppedTypingArgs = {
-  chatroomId: Scalars['Float']['input'];
-};
-
-export type User = {
-  __typename?: 'User';
-  avatarUrl: Maybe<Scalars['String']['output']>;
-  createdAt: Scalars['DateTime']['output'];
-  email: Scalars['String']['output'];
-  fullname: Scalars['String']['output'];
-  id: Scalars['Float']['output'];
-  password: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['DateTime']['output'];
-};

@@ -3,14 +3,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config: CodegenConfig = {
-  schema: process.env.GRAPHQL_API_URL,
-  documents: ['src/graphql/**/*.ts'],
+  schema: process.env.VITE_GRAPHQL_API_URL,
+  documents: ['src/graphql/**/*.ts', '!src/gql/**/*'],
   generates: {
     './src/gql/': {
       preset: 'client',
-      plugins: ['typescript'],
       config: {
-        avoidOptionals: true,
+        useTypeImports: true,
       },
     },
   },

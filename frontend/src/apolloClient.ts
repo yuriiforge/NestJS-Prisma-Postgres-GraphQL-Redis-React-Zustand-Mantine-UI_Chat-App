@@ -35,7 +35,7 @@ const maxRetry = 3;
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: 'ws://localhost:3000/graphql',
+    url: import.meta.env.VITE_WS_API_URL,
     connectionParams: {
       token: localStorage.getItem('access_token'),
     },
@@ -80,9 +80,7 @@ const errorLink = new ErrorLink(({ error, operation, forward }) => {
 
       if (err.message === 'Refresh token not found') {
         useUserStore.setState({
-          id: undefined,
-          fullname: '',
-          email: '',
+          user: null,
         });
       }
     }
@@ -90,7 +88,7 @@ const errorLink = new ErrorLink(({ error, operation, forward }) => {
 });
 
 const uploadLink = new UploadHttpLink({
-  uri: 'http://localhost:3000/graphql',
+  uri: import.meta.env.VITE_GRAPHQL_API_URL,
   credentials: 'include',
   headers: {
     'apollo-require-preflight': 'true',
