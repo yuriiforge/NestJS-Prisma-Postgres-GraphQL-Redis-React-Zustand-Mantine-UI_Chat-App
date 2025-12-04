@@ -37,7 +37,7 @@ const wsLink = new GraphQLWsLink(
   createClient({
     url: 'ws://localhost:3000/graphql',
     connectionParams: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      token: localStorage.getItem('access_token'),
     },
   })
 );

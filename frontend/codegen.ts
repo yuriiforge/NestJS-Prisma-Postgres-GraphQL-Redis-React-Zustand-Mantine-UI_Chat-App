@@ -9,6 +9,9 @@ const config: CodegenConfig = {
     './src/gql/': {
       preset: 'client',
       plugins: ['typescript'],
+      config: {
+        avoidOptionals: true,
+      },
     },
   },
 };

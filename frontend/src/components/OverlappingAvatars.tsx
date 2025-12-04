@@ -1,11 +1,10 @@
 import { Avatar, Tooltip } from '@mantine/core';
 import type { User } from '../gql/graphql';
 
-function OverlappingAvatars({ users }: { users: User[] }) {
+function OverlappingAvatars({ users }: { users: Partial<User>[] }) {
   const remainingUsers = users.length > 3 ? users.slice(3) : [];
 
   const remainingNames = remainingUsers.map((user) => user.fullname).join(', ');
-
   return (
     <Tooltip.Group openDelay={300} closeDelay={100}>
       <Avatar.Group spacing="sm">

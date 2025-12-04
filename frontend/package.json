@@ -21,11 +21,13 @@
     "@tabler/icons-react": "^3.35.0",
     "@types/apollo-upload-client": "^19.0.0",
     "apollo-upload-client": "^19.0.0",
+    "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
     "graphql": "^16.12.0",
     "graphql-ws": "^6.0.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-dropzone": "^14.3.8",
     "react-router-dom": "^7.9.6",
     "zustand": "^5.0.9"
   },

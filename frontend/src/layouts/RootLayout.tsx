@@ -1,13 +1,21 @@
-import { Card, MantineProvider } from '@mantine/core';
 import { Outlet } from 'react-router-dom';
 import '@mantine/core/styles.css';
+import AuthOverlay from '../components/auth/AuthOverlay';
+import ProfileSettings from '../components/ProfileSettings';
+import Sidebar from '../components/Sidebar';
+import MainLayout from './MainLayout';
+import { MantineProvider } from '@mantine/core';
 
 export function RootLayout() {
   return (
     <MantineProvider>
-      <Card shadow="lg" padding="lg">
+      <MainLayout>
+        <AuthOverlay />
+        <ProfileSettings />
+        <Sidebar />
+
         <Outlet />
-      </Card>
+      </MainLayout>
     </MantineProvider>
   );
 }

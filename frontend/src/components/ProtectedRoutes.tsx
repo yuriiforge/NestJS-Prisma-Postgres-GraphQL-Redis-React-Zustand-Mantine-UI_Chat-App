@@ -1,8 +1,9 @@
-import { useEffect, type PropsWithChildren } from 'react';
+import { useEffect } from 'react';
 import { useUserStore } from '../stores/userStore';
 import { useGeneralStore } from '../stores/generalStore';
+import { Navigate, Outlet } from 'react-router-dom';
 
-const ProtectedRoutes = ({ children }: PropsWithChildren) => {
+const ProtectedRoutes = () => {
   const userId = useUserStore((state) => state.user?.id);
   const toggleLoginModal = useGeneralStore((state) => state.toggleLoginModal);
 
@@ -12,9 +13,9 @@ const ProtectedRoutes = ({ children }: PropsWithChildren) => {
     }
   }, [toggleLoginModal, userId]);
 
-  if (userId) return children;
+  if (!userId) return <Navigate to="/" />;
 
-  return <p>Login to get started</p>;
+  return <Outlet />;
 };
 
 export default ProtectedRoutes;

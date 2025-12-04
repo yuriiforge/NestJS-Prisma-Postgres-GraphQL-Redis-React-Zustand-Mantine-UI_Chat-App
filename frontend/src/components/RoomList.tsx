@@ -19,6 +19,7 @@ import {
 } from '@mantine/core';
 import { IconPlus, IconX } from '@tabler/icons-react';
 import OverlappingAvatars from './OverlappingAvatars';
+import { formatDistanceToNow } from 'date-fns';
 
 const RoomList = () => {
   const toggleCreateRoomModal = useGeneralStore(
@@ -136,15 +137,18 @@ const RoomList = () => {
                         >
                           <Flex direction={'column'}>
                             <Text size="lg" style={defaultTextStyles}>
-                              {chatroom.name}
+                              Group name: {chatroom.name}
                             </Text>
                             <Text style={defaultTextStyles}>
                               {chatroom.messages[0].content}
                             </Text>
                             <Text c="dimmed" style={defaultTextStyles}>
-                              {new Date(
-                                chatroom.messages[0].createdAt
-                              ).toLocaleString()}
+                              {formatDistanceToNow(
+                                new Date(chatroom.messages[0].createdAt),
+                                {
+                                  addSuffix: true,
+                                }
+                              )}
                             </Text>
                           </Flex>
                         </Flex>
@@ -153,8 +157,8 @@ const RoomList = () => {
                           <Text c="dimmed">No Messages</Text>
                         </Flex>
                       )}
-                      {chatroom?.users && chatroom.users[0].id === userId && (
-                        <Flex h="100%" align="end" justify={'end'}>
+                      {chatroom?.users?.some((u) => u.id === userId) && (
+                        <Flex h="100%" align="end" justify="end">
                           <Button
                             p={0}
                             variant="light"

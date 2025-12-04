@@ -14,6 +14,9 @@ import { TokenService } from './token/token.service';
 import { GqlContext, GraphQLContextArgs, WsContext } from './types/gql-context';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ChatroomModule } from './chatroom/chatroom.module';
+import { LiveChatroomModule } from './live-chatroom/live-chatroom.module';
+import { TokenModule } from './token/token.module';
+import { parse } from 'cookie';
 
 const pubSub = new RedisPubSub({
   connection: {
@@ -33,9 +36,10 @@ const pubSub = new RedisPubSub({
     }),
     AuthModule,
     UserModule,
+    TokenModule,
     GraphQLModule.forRootAsync({
-      imports: [ConfigModule, AppModule],
-      inject: [ConfigService],
+      imports: [ConfigModule, TokenModule],
+      inject: [ConfigService, TokenService],
       driver: ApolloDriver,
       useFactory: (
         configService: ConfigService,
@@ -53,15 +57,18 @@ const pubSub = new RedisPubSub({
           },
 
           context: ({ req, res, extra }: GraphQLContextArgs): GqlContext => {
-            //HTTP request (queries & mutations)
+            // 1️⃣ HTTP requests (queries & mutations)
             if (req && res) {
               return { req, res, pubSub };
             }
 
-            // WebSocket connection (subscriptions)
+            // 2️⃣ WebSocket connection (subscriptions)
             const connectionParams = extra?.connectionParams ?? {};
 
-            const token = tokenService.extractToken(connectionParams);
+            // extra.request contains the HTTP headers of the WS handshake
+            const cookieHeader: string = extra?.request?.headers?.cookie || '';
+            const cookies = parse(cookieHeader); // parse cookie string into an object
+            const token = cookies['access_token'];
 
             if (!token) {
               throw new Error(
@@ -70,7 +77,6 @@ const pubSub = new RedisPubSub({
             }
 
             const user = tokenService.validateToken(token);
-
             if (!user) {
               throw new Error('Invalid or expired token');
             }
@@ -90,8 +96,9 @@ const pubSub = new RedisPubSub({
       isGlobal: true,
     }),
     ChatroomModule,
+    LiveChatroomModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService, AppResolver, TokenService],
+  providers: [AppService, PrismaService, AppResolver],
 })
 export class AppModule {}
