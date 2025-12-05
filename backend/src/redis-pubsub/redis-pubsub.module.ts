@@ -15,9 +15,9 @@ const logger = new Logger('RedisPubSubModule');
         const redisOptions = {
           host: process.env.REDIS_HOST || 'redis',
           port: Number(process.env.REDIS_PORT) || 6379,
-          password: process.env.REDIS_PASSWORD,
-          username: process.env.REDIS_SERVICE_NAME,
-          tls: {},
+          //   password: process.env.REDIS_PASSWORD,
+          //   username: process.env.REDIS_SERVICE_NAME,
+          //   tls: {},
           family: 4,
           connectTimeout: 10000,
           maxRetriesPerRequest: 3,
@@ -88,9 +88,9 @@ const logger = new Logger('RedisPubSubModule');
           connection: {
             host: redisOptions.host,
             port: redisOptions.port,
-            password: redisOptions.password,
-            tls: redisOptions.tls,
-            username: redisOptions.username,
+            // password: redisOptions.password,
+            // tls: redisOptions.tls,
+            // username: redisOptions.username,
             retryStrategy: () => 2000,
           },
         });
