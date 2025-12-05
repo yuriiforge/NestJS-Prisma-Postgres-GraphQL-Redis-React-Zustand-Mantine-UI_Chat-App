@@ -10,6 +10,7 @@ import { ChatroomService } from './chatroom.service';
 import { UserService } from '../user/user.service';
 import {
   BadRequestException,
+  Inject,
   UnauthorizedException,
   UseFilters,
   UseGuards,
@@ -28,13 +29,11 @@ import { FileUpload, GraphQLUpload } from 'graphql-upload-ts';
 
 @Resolver()
 export class ChatroomResolver {
-  public pubsub: RedisPubSub;
   constructor(
     private readonly chatroomService: ChatroomService,
     private readonly userService: UserService,
-  ) {
-    this.pubsub = new RedisPubSub();
-  }
+    @Inject('PUB_SUB') private readonly pubsub: RedisPubSub,
+  ) {}
 
   @UseFilters(GraphQLErrorFilter)
   @UseGuards(GraphqlAuthGuard)

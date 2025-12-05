@@ -1,22 +1,80 @@
 version: '3.8'
 
 services:
+  backend:
+    container_name: chatapp_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    environment:
+      CLIENT_URL: 'http://localhost:5173'
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      DATABASE_URL: 'postgresql://postgres:postgres@postgres:5432/chatapp'
+      # ADD THESE REDIS VARIABLES:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--no-verbose',
+          '--tries=1',
+          '--spider',
+          'http://localhost:3000/health',
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: always
+    command: sh -c "sleep 5 && npm run start:dev" # Add startup delay
+
   postgres:
     image: postgres:16
-    container_name: my_postgres_container
-    ports:
-      - '5433:5432'
+    container_name: chatapp_postgres
     environment:
+      POSTGRES_DB: chatapp
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: chatapp
+    ports:
+      - '5433:5432'
     volumes:
-      - 'my_postgres_data:/var/lib/postgresql/data'
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
-    image: redis:latest
+    image: redis:7-alpine
+    container_name: chatapp_redis
     ports:
       - '6379:6379'
+    # FIX THIS COMMAND: Remove localhost binding
+    command: redis-server --bind 0.0.0.0 --protected-mode no
+    restart: always
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  my_postgres_data:
+  postgres_data:

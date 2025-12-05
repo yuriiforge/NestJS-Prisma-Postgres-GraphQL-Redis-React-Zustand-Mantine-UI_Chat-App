@@ -4,6 +4,7 @@ import { Subscription, Args, Context, Mutation } from '@nestjs/graphql';
 import { Request } from 'express';
 import {
   BadRequestException,
+  Inject,
   UnauthorizedException,
   UseFilters,
   UseGuards,
@@ -17,13 +18,11 @@ import { LiveUsersInChatroomPayload } from './live-chatroom-payloads';
 
 @Resolver()
 export class LiveChatroomResolver {
-  private pubSub: RedisPubSub;
   constructor(
     private readonly liveChatroomService: LiveChatroomService,
     private readonly userService: UserService,
-  ) {
-    this.pubSub = new RedisPubSub();
-  }
+    @Inject('PUB_SUB') private readonly pubSub: RedisPubSub,
+  ) {}
 
   @Subscription(() => [User], {
     nullable: true,
