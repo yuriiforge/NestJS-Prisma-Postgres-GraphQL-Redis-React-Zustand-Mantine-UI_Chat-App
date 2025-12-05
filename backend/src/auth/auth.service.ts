@@ -52,7 +52,12 @@ export class AuthService {
       { secret: this.configService.get<string>('ACCESS_TOKEN_SECRET') },
     );
 
-    res.cookie(TokenNames.Access, accessToken, { httpOnly: true });
+    res.cookie(TokenNames.Access, accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 1 * 60 * 60 * 3600,
+    });
 
     return accessToken;
   }
@@ -76,9 +81,18 @@ export class AuthService {
       expiresIn: '7d',
     });
 
-    response.cookie(TokenNames.Access, accessToken, { httpOnly: true });
+    response.cookie(TokenNames.Access, accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 1 * 60 * 60 * 1000,
+    });
+
     response.cookie(TokenNames.Refresh, refreshToken, {
       httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return { user };
